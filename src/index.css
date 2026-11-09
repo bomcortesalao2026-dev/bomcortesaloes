@@ -1,0 +1,233 @@
+@import "tailwindcss";
+
+:root {
+  --nexus-orange: #C8A45D;
+  --nexus-orange-light: #E2C98A;
+  --nexus-orange-bright: #F3E6C8;
+  --nexus-orange-glow: rgba(200, 164, 93, 0.28);
+
+  /* Dark Gradient Theme */
+  --nexus-bg: #0B1120;
+  --nexus-bg-gradient: linear-gradient(135deg, #0B1120 0%, #0F1B2D 40%, #131C35 70%, #0D1527 100%);
+  --nexus-card-bg: rgba(15, 25, 50, 0.85);
+  --nexus-border: rgba(200, 164, 93, 0.15);
+  --nexus-border-hover: rgba(200, 164, 93, 0.45);
+  --nexus-text: #E8EDF5;
+  --nexus-text-soft: #A8B8CC;
+  --nexus-text-muted: #6B7F96;
+  
+  --sidebar-bg: #060D1A;
+  --sidebar-active-bg: rgba(200, 164, 93, 0.18);
+  --sidebar-active-text: #E2C98A;
+}
+
+body {
+  background: var(--nexus-bg-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+  color: var(--nexus-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar:horizontal {
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8A45D;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B38F48;
+}
+
+/* Fallback stubs for existing components so they don't break until refactored */
+.nexus-glow-text {}
+.nexus-glow-box {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.nexus-glow-box-strong {
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+}
+.nexus-border-energy {
+  animation: borderPulse 2s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: goldPulse 1.8s ease-in-out infinite;
+}
+.cyber-grid-bg {}
+.scanlines-overlay {}
+
+/* ── Gold pulse (glow + opacity) ── */
+@keyframes goldPulse {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(200,164,93,0.3), 0 0 18px rgba(200,164,93,0.15);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(200,164,93,0.9), 0 0 40px rgba(200,164,93,0.45);
+    opacity: 0.85;
+  }
+}
+
+/* ── Gold text blink ── */
+@keyframes goldTextBlink {
+  0%, 100% { color: #E2C98A; text-shadow: 0 0 8px rgba(200,164,93,0.7); }
+  50%       { color: #FFE08A; text-shadow: 0 0 20px rgba(255,220,100,1); }
+}
+.gold-blink {
+  animation: goldTextBlink 1.4s ease-in-out infinite;
+}
+
+/* ── Badge bounce-pulse ── */
+@keyframes badgePop {
+  0%, 100% { transform: scale(1);   box-shadow: 0 0 6px rgba(200,164,93,0.5); }
+  50%       { transform: scale(1.18); box-shadow: 0 0 18px rgba(200,164,93,1); }
+}
+.badge-pop {
+  animation: badgePop 1.2s ease-in-out infinite;
+}
+
+/* ── Border energy ── */
+@keyframes borderPulse {
+  0%, 100% { border-color: rgba(200,164,93,0.2); }
+  50%       { border-color: rgba(200,164,93,0.7); }
+}
+
+/* ============================================================
+   BADGE PENDENTE — piscante, maiúsculas, muda de cor
+   Alta visibilidade para tarefas pendentes de aprovação
+   ============================================================ */
+@keyframes pendingRainbowBlink {
+  0%   {
+    background-color: rgba(120, 53, 15, 0.55);
+    border-color: #f97316;
+    color: #fed7aa;
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.6), 0 0 28px rgba(249, 115, 22, 0.35);
+    letter-spacing: 0.12em;
+  }
+  25%  {
+    background-color: rgba(146, 64, 14, 0.55);
+    border-color: #fbbf24;
+    color: #fde68a;
+    box-shadow: 0 0 18px rgba(251, 191, 36, 0.75), 0 0 45px rgba(251, 191, 36, 0.4);
+    letter-spacing: 0.18em;
+  }
+  50%  {
+    background-color: rgba(133, 77, 14, 0.6);
+    border-color: #eab308;
+    color: #fff7c2;
+    box-shadow: 0 0 26px rgba(234, 179, 8, 0.95), 0 0 60px rgba(234, 179, 8, 0.55);
+    letter-spacing: 0.22em;
+  }
+  75%  {
+    background-color: rgba(159, 18, 57, 0.55);
+    border-color: #ef4444;
+    color: #fecaca;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.8), 0 0 50px rgba(239, 68, 68, 0.45);
+    letter-spacing: 0.18em;
+  }
+  100% {
+    background-color: rgba(120, 53, 15, 0.55);
+    border-color: #f97316;
+    color: #fed7aa;
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.6), 0 0 28px rgba(249, 115, 22, 0.35);
+    letter-spacing: 0.12em;
+  }
+}
+.badge-pendente-alerta {
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  padding: 0.4rem 0.8rem !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-radius: 0.7rem !important;
+  animation: pendingRainbowBlink 1.8s linear infinite !important;
+}
+
+@keyframes refreshReportColorPulse {
+  0%, 100% {
+    background-color: rgba(16, 40, 61, 0.95);
+    border-color: rgba(200, 164, 93, 0.45);
+    box-shadow: 0 0 0 rgba(200, 164, 93, 0);
+  }
+  50% {
+    background-color: rgba(200, 164, 93, 0.24);
+    border-color: rgba(241, 222, 181, 0.9);
+    box-shadow: 0 0 14px rgba(200, 164, 93, 0.35);
+  }
+}
+
+.refresh-report-button {
+  animation: refreshReportColorPulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .refresh-report-button {
+    animation: none;
+    background-color: rgba(16, 40, 61, 0.95);
+    border-color: rgba(200, 164, 93, 0.45);
+  }
+}
+
+/* Badge PROCESSANDO — mesmo estilo piscante porém em tons azuis/verdes (para pagamentos) */
+@keyframes processingBlink {
+  0%   {
+    background-color: rgba(8, 47, 73, 0.6);
+    border-color: #06b6d4;
+    color: #cffafe;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.7), 0 0 32px rgba(6, 182, 212, 0.4);
+    letter-spacing: 0.12em;
+  }
+  50%  {
+    background-color: rgba(6, 78, 59, 0.6);
+    border-color: #10b981;
+    color: #bbf7d0;
+    box-shadow: 0 0 24px rgba(16, 185, 129, 0.9), 0 0 55px rgba(16, 185, 129, 0.5);
+    letter-spacing: 0.2em;
+  }
+  100% {
+    background-color: rgba(8, 47, 73, 0.6);
+    border-color: #06b6d4;
+    color: #cffafe;
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.7), 0 0 32px rgba(6, 182, 212, 0.4);
+    letter-spacing: 0.12em;
+  }
+}
+.badge-processando-alerta {
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  padding: 0.4rem 0.8rem !important;
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-radius: 0.7rem !important;
+  animation: processingBlink 2s ease-in-out infinite !important;
+}
+
+/* Chip filter (status pendente destacado quando selecionado) */
+@keyframes chipSelectedPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+  50%       { box-shadow: 0 0 22px rgba(251, 191, 36, 0.95), 0 0 40px rgba(251, 191, 36, 0.4); }
+}
+.chip-status-pendente-ativo {
+  animation: chipSelectedPulse 1.6s ease-in-out infinite !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
