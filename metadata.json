@@ -1,0 +1,6 @@
+{
+  "name": "Bom Corte Salões - Sistema de Gestão",
+  "description": "Sistema completo para gestão de rede de salões de cabeleireiro Bom Corte com controle de filiais, gerentes, profissionais, serviços, comissões, aprovações, vales e pagamentos semanais.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
