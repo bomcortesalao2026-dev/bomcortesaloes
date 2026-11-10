@@ -980,10 +980,20 @@ export class StorageService {
     return (max > 0 ? max + 1 : hist.length + 2);
   }
 
-  static addRegistro(registro: RegistroServico): RegistroServico {
-    const registros = this.getRegistrosServicos();
+  static async addRegistro(registro: RegistroServico): Promise<RegistroServico> {
+    if (!canUseSupabase()) {
+      throw new Error('Não foi possível conectar ao banco de dados. O atendimento não foi confirmado. Verifique a internet e tente novamente.');
+    }
+
+    // Só confirma o lançamento depois que o Supabase concluir a gravação.
+    // Isso impede que a tela mostre sucesso para um registro que ficou apenas
+    // no armazenamento local do aparelho.
+    await dbSaveRegistrosServicos([registro]);
+
+    const registros = this.getRegistrosServicos().filter(item => item.id !== registro.id);
     registros.unshift(registro);
-    this.saveRegistrosServicos(registros, [registro.id]);
+    localStorage.setItem(STORAGE_KEYS.REGISTROS_SERVICOS, JSON.stringify(registros));
+    removePendingIds(STORAGE_KEYS.PENDING_REGISTROS, [registro.id]);
     return registro;
   }
 
