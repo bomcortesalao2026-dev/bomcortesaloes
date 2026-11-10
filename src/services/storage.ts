@@ -53,11 +53,13 @@ function canUseSupabase(): boolean {
 
 async function safeDbCall<T>(fn: () => Promise<T>, fallback: T, logName: string): Promise<T> {
   if (!canUseSupabase()) return fallback;
-  try { return await fn(); }
-  catch (err) {
-    console.warn(`[Supabase] Falha em ${logName}, usando localStorage:`, err);
-    _useSupabase = false;
-    setTimeout(() => { _useSupabase = true; }, 30000);
+  try {
+    return await fn();
+  } catch (err) {
+    // Uma falha isolada em uma tabela não deve desligar o Supabase para
+    // todas as demais. Mantém as outras leituras/gravações online e registra
+    // qual operação falhou para facilitar o diagnóstico.
+    console.error(`[Supabase] Falha em ${logName}; usando cache local apenas para esta operação:`, err);
     return fallback;
   }
 }
