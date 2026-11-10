@@ -59,6 +59,7 @@ export const VendedorRegistroServico: React.FC<VendedorRegistroServicoProps> = (
 
   const [submittedRecord, setSubmittedRecord] = useState<RegistroServico | null>(null);
   const [errorMsg, setErrorMsg] = useState<string>('');
+  const [isSaving, setIsSaving] = useState<boolean>(false);
 
   useEffect(() => {
     const fList = StorageService.getFiliais();
@@ -139,7 +140,8 @@ export const VendedorRegistroServico: React.FC<VendedorRegistroServicoProps> = (
   };
 
   // Step 2: Final Confirmation
-  const handleFinalSubmit = () => {
+  const handleFinalSubmit = async () => {
+    if (isSaving) return;
     setErrorMsg('');
 
     if (parsedModalPrice <= 0) {
@@ -180,7 +182,16 @@ export const VendedorRegistroServico: React.FC<VendedorRegistroServicoProps> = (
       createdAt: dataHoraISO,
     };
 
-    const newRecord = StorageService.addRegistro(novoRegistro);
+    setIsSaving(true);
+    let newRecord: RegistroServico;
+    try {
+      newRecord = await StorageService.addRegistro(novoRegistro);
+    } catch (error) {
+      setErrorMsg(error instanceof Error ? error.message : 'Falha ao gravar o atendimento no banco de dados. Tente novamente.');
+      setIsSaving(false);
+      return;
+    }
+    setIsSaving(false);
 
     StorageService.logAuditoria({
       usuarioId: currentUser.id,
@@ -693,10 +704,11 @@ export const VendedorRegistroServico: React.FC<VendedorRegistroServicoProps> = (
                 type="button"
                 id="btn-confirm-final-service"
                 onClick={handleFinalSubmit}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#C8A45D] to-[#9F7B2E] text-white font-bold text-xs shadow-[0_0_20px_rgba(255,90,0,0.5)] hover:brightness-110 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5"
+                disabled={isSaving}
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#C8A45D] to-[#9F7B2E] text-white font-bold text-xs shadow-[0_0_20px_rgba(255,90,0,0.5)] hover:brightness-110 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5 disabled:opacity-60 disabled:cursor-wait"
               >
                 <Check className="w-4 h-4" />
-                <span>Confirmar & Finalizar</span>
+                <span>{isSaving ? 'Salvando no banco...' : 'Confirmar & Finalizar'}</span>
               </button>
             </div>
 
